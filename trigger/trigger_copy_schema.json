@@ -1,0 +1,28 @@
+{
+	"name": "trigger_copy_schema",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline1_baza_lookup_foreach_jeden_dataset",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"table_name": "x",
+					"table_schema": "x"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 10,
+				"startTime": "2024-10-21T12:39:00",
+				"timeZone": "Central European Standard Time"
+			}
+		}
+	}
+}

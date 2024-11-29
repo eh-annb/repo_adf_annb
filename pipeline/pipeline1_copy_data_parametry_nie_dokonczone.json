@@ -1,0 +1,101 @@
+{
+	"name": "pipeline1_copy_data_parametry_nie_dokonczone",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_data_from_storage",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.2:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "DataLakeCSV_source",
+						"type": "DatasetReference",
+						"parameters": {
+							"ContainerName": {
+								"value": "@pipeline().parameters.containerName",
+								"type": "Expression"
+							},
+							"FilePath": {
+								"value": "@pipeline().parameters.FilePath_directory",
+								"type": "Expression"
+							},
+							"FileName": {
+								"value": "@pipeline().parameters.FileName",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DataLakeCsv_target",
+						"type": "DatasetReference",
+						"parameters": {
+							"ContainerName": "container-test3",
+							"FilePath": "folder_test",
+							"FileName": "test_1.csv"
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"containerName": {
+				"type": "String",
+				"defaultValue": "container_test1"
+			},
+			"FilePath_directory": {
+				"type": "String",
+				"defaultValue": "folder_test"
+			},
+			"FileName": {
+				"type": "String",
+				"defaultValue": "test_1.csv"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-10-18T14:09:38Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
